@@ -65,7 +65,7 @@ public class MonsterCreater : MonoBehaviour {
                         monsterWaves[waveIndex].monsterNavSpeed,
                         monsterWaves[waveIndex].monsterHP,
                         monsterWaves[waveIndex].monsterValue,
-                        endTran.position,);
+                        endTran.position);
                     //计时器归零
                     monsterTimer = 0;
                     //计数器递增

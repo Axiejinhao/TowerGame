@@ -6,7 +6,10 @@ using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class TowerBuyer : MonoBehaviour {
+public class TowerBuyer : MonoBehaviour{
+    //单例脚本
+    public static TowerBuyer towerBuyerInstance;
+
     [Header("炮塔预设体数组")]
     public GameObject[] towerPrefabs;
     [Header("游戏初始金钱")]
@@ -15,22 +18,38 @@ public class TowerBuyer : MonoBehaviour {
     private int currentTowerIndex;
     //显示金钱文本
     private Text moneyText;
+    //显示生命文本
+    private Text healthText;
     //射线碰撞检测器
     private RaycastHit hit;
     //射线
     private Ray ray;
+    //游戏速度开关
+    private Toggle gameSpeedToggle;
+
+    //是否正在拖拽中
+    private bool flagOnDrag =false;
 
 	private void Awake () {
+        towerBuyerInstance = this;
+        gameSpeedToggle = transform.Find("Toggle").GetComponent<Toggle>();
         moneyText = transform.Find("CoinIcon/CoinText").GetComponent<Text>();
+        healthText = transform.Find("Health/HealthText").GetComponent<Text>();
 	}
 
 	private void Start () {
+        gameSpeedToggle.onValueChanged.AddListener(OnGameSpeedToggleValueChange);
         UpdateTextMoney();
     }
 
     public void UpdateTextMoney()
     {
         moneyText.text = currentMoney.ToString();
+    }
+
+    public void UpdateTextHealth()
+    {
+        healthText.text = GameHealth.gameHealthInstance.gameHealth.ToString();
     }
 
     private void Update () {
@@ -44,7 +63,11 @@ public class TowerBuyer : MonoBehaviour {
             {
                 return;
             }
-            //Debug.Log(currentTowerIndex);
+            if(hit.collider.transform.childCount != 0)
+            {
+                return;
+            }
+            //Debug.Log(hit.collider.name);
             //获取炮塔的预设体
             Tower currentTowerPrefab = towerPrefabs[currentTowerIndex].GetComponent<Tower>();
 
@@ -61,7 +84,25 @@ public class TowerBuyer : MonoBehaviour {
             currentTower.transform.SetParent(hit.collider.transform);
             currentTower.transform.localPosition = Vector3.up * 2.8f;
         }
-	}
+
+        UpdateTextMoney();
+        UpdateTextHealth();
+    }
+
+    /// <summary>
+    /// 开关触发事件
+    /// </summary>
+    public void OnGameSpeedToggleValueChange(bool val)
+    {
+        if(val)
+        {
+            Time.timeScale = 2;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
 
     /// <summary>
     /// 炮塔按钮点击事件

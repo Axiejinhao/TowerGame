@@ -34,8 +34,9 @@ public class Tower : MonoBehaviour {
 	}
 
 	private void Start () {
-		
-	}
+        //第一发子弹不需要蓄力
+        timer = fireInterval-Time.deltaTime;
+    }
 	
 	private void Update () {
         //Debug.Log(monsterList.Count);

@@ -294,11 +294,13 @@
     <Compile Include="Assets\MOBA and Tower Defense\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\MOBA and Tower Defense\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameHealth.cs" />
     <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Scripts\MonsterCreater.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\Scripts\TowerBuyer.cs" />
+    <Compile Include="Assets\TowerButtonController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\MOBA and Tower Defense\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />

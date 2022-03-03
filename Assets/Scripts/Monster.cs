@@ -15,10 +15,13 @@ public class Monster : MonoBehaviour {
     [HideInInspector]
     //击杀可获取的金钱
     private int monsterValue;
+    //怪物的总血量
+    private float monsterMaxHP;
 
     private Animator ani;
     private NavMeshAgent nav;
     private CapsuleCollider cap;
+    private Slider slider;
 
     //死亡事件
     public Action<Monster> deathEvent;
@@ -27,14 +30,15 @@ public class Monster : MonoBehaviour {
         nav = GetComponent<NavMeshAgent>();
         ani = GetComponent<Animator>();
         cap = GetComponent<CapsuleCollider>();
+        slider = transform.Find("Canvas/Slider").GetComponent<Slider>();
 	}
 
 	private void Start () {
-		
-	}
+        monsterMaxHP = monsterHP;
+    }
 	
 	private void Update () {
-		
+        slider.value = monsterHP / monsterMaxHP;
 	}
 
     public void MonsterInit(float moveSpeed, float hp, int value, Vector3 target)
@@ -61,6 +65,9 @@ public class Monster : MonoBehaviour {
         }
         else
         {
+            //增加金币
+            TowerBuyer.towerBuyerInstance.currentMoney += monsterValue;
+
             //播放死亡动画
             ani.SetTrigger("Dead");
             //停止导航

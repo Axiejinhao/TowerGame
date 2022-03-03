@@ -7,11 +7,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class GameHealth : MonoBehaviour {
+    //单例脚本
+    public static GameHealth gameHealthInstance;
     [Header("游戏血量")]
-    [Range(1,10)]
-    public int gameHealth =10;
+    public int gameHealth =5;
 	private void Awake () {
-		
+        gameHealthInstance = this;
 	}
 
 	private void Start () {
@@ -19,7 +20,7 @@ public class GameHealth : MonoBehaviour {
 	}
 	
 	private void Update () {
-		
+
 	}
 
     private void OnTriggerEnter(Collider other)
@@ -27,7 +28,8 @@ public class GameHealth : MonoBehaviour {
         if(other.tag == "Monster")
         {
             Destroy(other.gameObject);
-            if(--gameHealth <= 0)
+            gameHealth--;
+            if(gameHealth <= 0)
             {
                 Debug.Log("GameOver");
             }
